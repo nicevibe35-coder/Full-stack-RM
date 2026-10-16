@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Frontend Roadmap</title>
+<style>
+:root{--bg:#f2f5f3;--sf:#fff;--sf2:#eaf0ec;--tx:#14231c;--mu:#5d6f66;--bd:#dbe4df;--ac:#0b7a55;--acs:#d8f0e5;--am:#d98b14;--ams:#fbecd0;
+--r:18px;--sh:0 1px 2px rgba(20,35,28,.06),0 8px 24px -12px rgba(20,35,28,.18);
+font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1511;--sf:#15201a;--sf2:#1c2a23;--tx:#e8f1ec;--mu:#97aba1;--bd:#27372f;--ac:#3ec58f;--acs:#163a2b;--am:#f0b04a;--ams:#3a2c12;--sh:0 8px 24px -12px rgba(0,0,0,.6)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.5}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.app{max-width:680px;margin:0 auto;padding:20px 16px 110px}
+.top{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.top h1{font-size:26px;line-height:1.15;letter-spacing:-.02em;margin:0 0 4px}
+.top p{margin:0;color:var(--mu);font-size:14px}
+.ring{flex:none;position:relative;width:68px;height:68px;margin-left:auto}
+.ring svg{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:6}
+.ring .bg{stroke:var(--sf2)}.ring .fg{stroke:var(--ac);stroke-linecap:round;transition:stroke-dashoffset .5s ease}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat{background:var(--sf);border-radius:14px;padding:12px;box-shadow:var(--sh)}
+.stat b{display:block;font-size:20px;letter-spacing:-.01em}.stat span{font-size:12px;color:var(--mu)}
+.seg{display:flex;background:var(--sf2);border-radius:12px;padding:4px;gap:4px;margin:8px 0 6px}
+.seg button{flex:1;border:0;background:none;padding:9px 4px;border-radius:9px;font-size:14px;color:var(--mu);font-weight:600}
+.seg button.on{background:var(--sf);color:var(--tx);box-shadow:var(--sh)}
+.hint{font-size:13px;color:var(--mu);margin:0 0 20px}
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:17px;top:8px;bottom:8px;width:2px;background:var(--bd)}
+.ph{position:relative;padding-left:48px;margin-bottom:14px}
+.node{position:absolute;left:0;top:14px;width:36px;height:36px;border-radius:50%;background:var(--sf);border:2px solid var(--bd);display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--mu)}
+.ph.cur .node{border-color:var(--am);color:var(--am);box-shadow:0 0 0 5px var(--ams)}
+.ph.done .node{background:var(--ac);border-color:var(--ac);color:#fff}
+.card{background:var(--sf);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.hd{width:100%;display:flex;align-items:center;gap:10px;padding:16px;background:none;border:0;text-align:left;cursor:pointer}
+.hd h2{font-size:17px;margin:0;letter-spacing:-.01em}
+.hd small{display:block;color:var(--mu);font-size:13px;margin-top:2px}
+.hd .cn{margin-left:auto;font-size:13px;font-weight:700;color:var(--ac);background:var(--acs);border-radius:99px;padding:3px 10px;white-space:nowrap}
+.chev{flex:none;color:var(--mu);transition:transform .25s}
+.ph.open .chev{transform:rotate(180deg)}
+.pb{height:4px;background:var(--sf2);margin:0 16px 12px;border-radius:9px;overflow:hidden}
+.pb i{display:block;height:100%;background:var(--ac);transition:width .3s}
+.bw{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.ph.open .bw{grid-template-rows:1fr}
+.bw>div{overflow:hidden}
+.in{padding:0 16px 16px}
+.goal{margin:0 0 6px;color:var(--mu);font-size:14px}
+.gt{font-size:13px;font-weight:700;color:var(--tx);margin:16px 0 4px}
+.it{display:flex;gap:12px;align-items:flex-start;padding:9px 0;cursor:pointer;border-top:1px solid var(--bd)}
+.gt+.it{border-top:0}
+.it input{position:absolute;opacity:0;pointer-events:none}
+.bx{flex:none;width:22px;height:22px;border-radius:7px;border:2px solid var(--bd);display:grid;place-items:center;margin-top:1px;transition:.15s;color:transparent;background:var(--sf)}
+.it input:checked+.bx{background:var(--ac);border-color:var(--ac);color:#fff}
+.it input:focus-visible+.bx{outline:2px solid var(--ac);outline-offset:2px}
+.it span.tx{font-size:15px}
+.it input:checked~.tx{color:var(--mu);text-decoration:line-through}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-size:12px;padding:4px 10px;border-radius:99px;background:var(--sf2);color:var(--mu)}
+.note{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--ams);border-left:4px solid var(--am);font-size:14px}
+.pad{padding:6px 16px}
+.row{display:flex;gap:12px;align-items:center;padding:13px 0;border-top:1px solid var(--bd)}
+.row:first-child{border-top:0}
+.row div{flex:1}.row small{display:block;color:var(--mu);font-size:13px}
+.badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--acs);color:var(--ac)}
+.sec{font-size:13px;font-weight:700;margin:20px 4px 8px;color:var(--mu)}
+.sal{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid var(--bd)}
+.sal:first-child{border-top:0}.sal b{white-space:nowrap}
+.ghost{display:block;margin:20px auto 0;background:none;border:1px solid var(--bd);color:var(--mu);border-radius:10px;padding:8px 14px;font-size:13px}
+.nav{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--sf) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+.nav div{max-width:680px;margin:0 auto;display:flex}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:6px 0;font-size:11px;font-weight:600;color:var(--mu)}
+.nav button.on{color:var(--ac)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="view"></div>
+<nav class="nav" id="nav" aria-label="Sections"></nav>
+<script>
+var PH=[
+{t:"Foundations + React core",h:40,g:"Solid JS and React basics. Async JS comes early because everything later depends on it.",
+ gr:[["Web basics",["HTML/CSS, mobile-first","Tailwind (pick one styling tool)","JavaScript ES6+"]],
+ ["Async JS, deeply",["Promises","async/await and error handling","fetch and JSON"]],
+ ["React core",["Components, JSX, props, children","useState, lifting state, controlled inputs","Lists and keys","Events and forms","Conditional rendering"]]],
+ l:["Redux, Zustand, Next.js, RSC (wait for real pain)"],
+ n:"Learning projects here (todo, weather, movie search) are for practice, not for your portfolio."},
+{t:"Intermediate React",h:25,g:"Where most beginners stall. Understand rendering first, optimize later.",
+ gr:[["Core hooks and patterns",["useEffect as synchronization, with cleanup","useRef","Context API vs prop drilling","Custom hooks","useState vs useReducer: when each fits","How re-rendering works"]],
+ ["Data and routing",["Fetching with loading, error and empty states","Abort controllers, race conditions","React Router","TanStack Query (after hand-written fetching)"]]],
+ l:["useMemo/useCallback in depth","React Hook Form and Zod patterns","Deep TanStack Query features"],
+ n:"Use TanStack Query only once you can explain the problems it solves."},
+{t:"TypeScript with React",h:20,g:"Write typed React you can read and change without copying a tutorial.",
+ gr:[["Practical TS",["Primitives, inference, unions, arrays, objects","Interfaces and type aliases","Function parameter and return types","Narrowing and nullable values","Generics (basic)"]],
+ ["TS in React",["Typing props and events","Typing state and refs","Typing API responses","Rebuild a small project in TS"]]],
+ l:["Polymorphic components","Complex generic hooks"],
+ n:"Many Nigerian job posts (e.g. Lendsqr) ask for TypeScript, so keep using it in every project from here."},
+{t:"Backend + SQL",h:35,g:"Know what happens behind the API so Supabase isn't magic.",
+ gr:[["HTTP and Node/Express",["Methods, status codes, headers, REST, CORS","Node, npm, modules","Routing, middleware, error handling","Env vars and config","Request validation"]],
+ ["SQL and Postgres",["Tables, types, primary/foreign keys","SELECT, INSERT, UPDATE, DELETE, WHERE, ORDER BY","JOINs (inner, left)","GROUP BY and aggregates","NULL behavior and unique constraints","Transactions and normalization (basics)","Design a schema: users, teams, projects, tasks, memberships","Connect Express to Postgres"]],
+ ["Auth and security",["Hashing, sessions vs JWTs, cookies vs localStorage","OAuth flow (concept)","Protected routes on the server","SQL injection, rate limiting, secure headers","OWASP Top 10 overview"]]],
+ l:["Database optimization beyond basics","NestJS / Fastify"],
+ n:"Working knowledge is enough. Reinforce SQL as you build."},
+{t:"Supabase",h:30,g:"Core features first. Learn the rest when a project needs it.",
+ gr:[["Priority 1: essential",["Project setup and connecting React","Database CRUD","Auth and session handling","Row Level Security policies","Test access as different users; confirm unauthorized requests fail"]],
+ ["Priority 2: when needed",["File storage and uploads","Password recovery and email verification","Realtime subscriptions","Multi-tenant permissions"]]],
+ l:["Edge Functions","Advanced DB optimization","Complex authorization architectures"],
+ n:"Authentication says who you are; authorization says what you may do. A protected React route doesn't secure your database, RLS does."},
+{t:"Portfolio + career",h:25,g:"Start alongside phase 4, not after everything. Keep learning while applying.",
+ gr:[["Build",["2 deep projects, deployed, with real data flow","Case study for each: problem, solution, result","Be able to explain every line without copying"]],
+ ["Career prep",["CV and GitHub cleanup","Read junior job descriptions, note gaps","Freelance: message 10-15 local businesses daily","Start with ₦80k-₦150k projects, collect testimonials","Apply to fintech/microfinance juniors"]]],
+ l:[],n:"Two strong projects beat six tutorial projects you can't explain."}];
+var CK=[["React fundamentals","Build reusable components and manage state"],["Intermediate React","Multi-page apps with reusable logic and data fetching"],["TypeScript","Write and maintain typed components"],["SQL fundamentals","Design a basic relational schema and write queries"],["Supabase","App with auth, CRUD and tested access controls"],["Portfolio","Build, test, deploy, document and explain complete apps"]];
+var PR=[["Todo app","state, lists, forms"],["Weather app","effects, async, loading states"],["Movie search","Router, params, debounce"],["Rebuild in TypeScript","TS with React"],["Express + Postgres CRUD API","HTTP, SQL, REST, auth"],["Portfolio 1: team/project manager","users, teams, projects, tasks, permissions, Supabase + RLS"],["Portfolio 2: your choice","real data flow, ideally one realtime feature"]];
+
+var ST={},PACE=1.5,tab=0,open={},TABS=[["Plan","M4 6h16M4 12h16M4 18h10"],["Skills","M5 12l4 4 10-10"],["Projects","M4 7l8-4 8 4v10l-8 4-8-4z"],["Pay","M12 3v18M16 7H10a3 3 0 000 6h4a3 3 0 010 6H8"],["Avoid","M12 4l9 16H3zM12 10v4M12 17v.5"]];
+try{ST=JSON.parse(localStorage.getItem("rm4")||"{}");PACE=+localStorage.getItem("pace4")||1.5}catch(e){}
+var first=true;
+function save(){try{localStorage.setItem("rm4",JSON.stringify(ST));localStorage.setItem("pace4",PACE)}catch(e){}
+ try{fetch("/api/progress",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ST:ST,PACE:PACE})}).catch(function(){})}catch(e){}}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function wk(h){return Math.max(1,Math.ceil(h/(PACE*6)))}
+function cnt(i){var a=0,d=0;PH[i].gr.forEach(function(g,j){g[1].forEach(function(_,k){a++;if(ST[i+"."+j+"."+k])d++})});return[d,a]}
+var CK_=function(){return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>'};
+function item(id,txt){return '<label class="it"><input type="checkbox" data-c="'+id+'"'+(ST[id]?" checked":"")+'><span class="bx">'+CK_()+'</span><span class="tx">'+esc(txt)+'</span></label>'}
+function render(){
+ var D=0,A=0,cur=-1,H=0;PH.forEach(function(p,i){var c=cnt(i);D+=c[0];A+=c[1];H+=p.h;if(cur<0&&c[0]<c[1])cur=i});
+ var pct=A?Math.round(D/A*100):0;
+ if(first){open[cur<0?0:cur]=1;first=false}
+ var h='<header class="top"><div><h1>Frontend roadmap</h1><p>React, TypeScript, backend, Supabase</p></div><div class="ring"><svg width="68" height="68"><circle class="bg" cx="34" cy="34" r="28"/><circle class="fg" cx="34" cy="34" r="28" stroke-dasharray="175.9" stroke-dashoffset="'+(175.9*(1-pct/100)).toFixed(1)+'"/></svg><b>'+pct+'%</b></div></header>';
+ if(tab==0){
+  h+='<div class="stats"><div class="stat"><b>'+D+'/'+A+'</b><span>tasks done</span></div><div class="stat"><b>~'+wk(H)+' wks</b><span>at '+PACE+' h/day</span></div><div class="stat"><b>'+(cur<0?"Done":"Phase "+(cur+1))+'</b><span>current</span></div></div>';
+  h+='<div class="seg" role="group" aria-label="Daily study time">'+[1.5,3,5].map(function(x){return '<button data-p="'+x+'" class="'+(x==PACE?"on":"")+'">'+x+' h/day</button>'}).join("")+'</div><p class="hint">About '+H+' hours in total. Rough estimates, not promises.</p><ol class="tl">';
+  var s=0;
+  PH.forEach(function(p,i){var a=s+1;s+=wk(p.h);var c=cnt(i),dn=c[0]==c[1];
+   h+='<li class="ph'+(open[i]?" open":"")+(i==cur?" cur":"")+(dn?" done":"")+'"><span class="node">'+(dn?CK_():i+1)+'</span><div class="card"><button class="hd" data-o="'+i+'" aria-expanded="'+(!!open[i])+'"><div><h2>'+esc(p.t)+'</h2><small>~'+p.h+' hours, week '+a+(s>a?' to '+s:'')+'</small></div><span class="cn">'+c[0]+'/'+c[1]+'</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="pb"><i style="width:'+Math.round(c[0]/c[1]*100)+'%"></i></div><div class="bw"><div><div class="in"><p class="goal">'+esc(p.g)+'</p>';
+   p.gr.forEach(function(g,j){h+='<div class="gt">'+g[0]+'</div>';g[1].forEach(function(x,k){h+=item(i+"."+j+"."+k,x)})});
+   if(p.l.length)h+='<div class="gt">Postpone for now</div><div class="chips">'+p.l.map(function(x){return '<span class="chip">'+esc(x)+'</span>'}).join("")+'</div>';
+   h+='<div class="note">'+esc(p.n)+'</div></div></div></div></div></li>'});
+  h+='</ol><button class="ghost" id="rst">Reset progress</button>'}
+ if(tab==1){h+='<p class="hint">Tick each skill once you can do it without copying a tutorial.</p><div class="card pad">';CK.forEach(function(r,i){h+='<div class="row">'+item("k."+i,"")+'<div><b>'+esc(r[0])+'</b><small>'+esc(r[1])+'</small></div></div>'});h+='</div><div class="note">Start applying once you can ship a deployed app with auth, CRUD and tested access rules, and explain every part. Keep learning while you apply.</div>'}
+ if(tab==2){h+='<p class="hint">The first five are practice. The last two go in your portfolio.</p><div class="card pad">';PR.forEach(function(r,i){h+='<div class="row">'+item("p."+i,"")+'<div><b>'+esc(r[0])+'</b><small>'+esc(r[1])+'</small></div>'+(i>4?'<span class="badge">Portfolio</span>':'')+'</div>'});h+='</div>'}
+ if(tab==3){h+='<p class="hint">Figures come from one source and are unverified. Check current job listings.</p><div class="card pad">';[["Frontend, 1-4 yrs (Payscale avg)","≈ ₦1.2M/yr"],["Some local junior roles","₦200k/mo"],["Fintech or bank, mid-senior","₦400-500k/mo net"],["Some Lagos listings","₦400-800k/mo"],["5-9 yrs, average total","≈ ₦4.9M/yr"]].forEach(function(r){h+='<div class="sal"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'});h+='</div><div class="note">Portfolio quality moves pay more than years of experience.</div>'}
+ if(tab==4){var A4=[["Waiting until everything is learned","Start your CV, GitHub and job-description research early."],["Tutorial-only projects","Build things with real data flow that you can explain."],["Too many libraries at once","Learn a tool after you have felt the problem it solves."],["Treating RLS as three policies","Test as different users and confirm unauthorized requests fail."],["Crushing yourself for a deadline","Pick a pace you can keep up."]];h+='<div class="card pad">';A4.forEach(function(r){h+='<div class="row"><div><b>'+r[0]+'</b><small>'+r[1]+'</small></div></div>'});h+='</div>'}
+ document.getElementById("view").innerHTML=h;
+ document.getElementById("nav").innerHTML='<div>'+TABS.map(function(t,i){return '<button data-t="'+i+'" class="'+(i==tab?"on":"")+'"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+t[1]+'"/></svg>'+t[0]+'</button>'}).join("")+'</div>'}
+document.addEventListener("click",function(e){
+ var b=e.target.closest("[data-t]");if(b){tab=+b.dataset.t;render();scrollTo(0,0);return}
+ var p=e.target.closest("[data-p]");if(p){PACE=+p.dataset.p;save();render();return}
+ var o=e.target.closest("[data-o]");if(o){var i=o.dataset.o;open[i]=!open[i];var li=o.closest(".ph");li.classList.toggle("open",!!open[i]);o.setAttribute("aria-expanded",!!open[i]);return}
+ if(e.target.id=="rst"){ST={};save();render()}});
+document.addEventListener("change",function(e){var c=e.target.dataset.c;if(c){ST[c]=e.target.checked;save();var y=scrollY;render();scrollTo(0,y)}});
+render();
+try{fetch("/api/progress").then(function(r){return r.json()}).then(function(d){if(d&&d.ST&&Object.keys(d.ST).length){ST=d.ST;PACE=d.PACE||PACE;render()}}).catch(function(){})}catch(e){}
+</script>
+</body>
+</html>
